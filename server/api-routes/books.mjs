@@ -16,4 +16,11 @@ router.get("/:id", async (req, res) => {
     res.json(books);
 });
 
+// DELETE /api/books/:id
+router.delete("/:id", async (req, res) => {
+    const _id = req.params.id;
+    await Book.deleteOne({ _id: _id });
+    res.json({ message: "Deleted" });
+});
+
 export default router;
