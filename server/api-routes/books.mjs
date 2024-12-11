@@ -16,6 +16,13 @@ router.get("/:id", async (req, res) => {
     res.json(books);
 });
 
+// POST /api/books
+router.post("/", async (req, res) => {
+    const book = new Book(req.body);
+    await book.save();
+    res.json({ message: "Created" });
+});
+
 // DELETE /api/books/:id
 router.delete("/:id", async (req, res) => {
     const _id = req.params.id;
