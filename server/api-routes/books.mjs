@@ -12,8 +12,8 @@ router.get("/", async (req, res) => {
 // GET /api/books/:id
 router.get("/:id", async (req, res) => {
     const _id = req.params.id;
-    const books = await Book.findOne({ _id: _id });
-    res.json(books);
+    const book = await Book.findOne({ _id: _id });
+    res.json(book);
 });
 
 // POST /api/books
@@ -21,6 +21,22 @@ router.post("/", async (req, res) => {
     const book = new Book(req.body);
     await book.save();
     res.json({ message: "Created" });
+});
+
+// PATCH /api/books/:id
+router.patch("/:id", async (req, res) => {
+    const { title, rating, description, comment } = req.body;
+    const _id = req.params.id;
+    const book = await Book.findOne({ _id: _id });
+
+    book.title = title || book.title;
+    book.rating = rating || book.rating;
+    book.description = description || book.description;
+    book.comment = comment || book.comment;
+
+    await book.save();
+
+    res.json({ message: "Updated" });
 });
 
 // DELETE /api/books/:id

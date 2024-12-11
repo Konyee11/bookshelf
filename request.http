@@ -16,6 +16,15 @@ Content-Type: application/json
     "rating": 5
 }
 
+###
+
+PATCH  http://localhost:8080/api/books/675a1e236e90f0d933685f6f
+Content-Type: application/json
+
+{
+    "rating": 2
+}
+
 
 ###
 
