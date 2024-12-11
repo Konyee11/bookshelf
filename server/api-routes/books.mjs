@@ -5,7 +5,14 @@ const router = express.Router();
 
 // GET /api/books
 router.get("/", async (req, res) => {
-    const books = await Book.find();
+    const books = await Book.find().sort({ updatedAt: -1 });
+    res.json(books);
+});
+
+// GET /api/books/:id
+router.get("/:id", async (req, res) => {
+    const _id = req.params.id;
+    const books = await Book.findOne({ _id: _id });
     res.json(books);
 });
 
