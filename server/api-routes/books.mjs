@@ -7,18 +7,9 @@ import {
     updateBook,
     deleteBook,
 } from "../controllers/books.mjs";
+import { requestErrorHandler } from "../helpers/helper.mjs";
 
 const router = express.Router();
-
-function requestErrorHandler(controller) {
-    return async function (req, res, next) {
-        try {
-            return await controller(req, res);
-        } catch (error) {
-            next(error);
-        }
-    };
-}
 
 // GET /api/books
 router.get("/", requestErrorHandler(getAllBooks));
