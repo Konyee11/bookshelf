@@ -1,5 +1,7 @@
 import express from "express";
+import { body } from "express-validator";
 import Book from "../models/books.mjs";
+import { registBook, updateBook } from "../controllers/books.mjs";
 
 const router = express.Router();
 
@@ -17,27 +19,24 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /api/books
-router.post("/", async (req, res) => {
-    const book = new Book(req.body);
-    await book.save();
-    res.json({ message: "Created" });
-});
+router.post(
+    "/",
+    body("title").notEmpty(), // タイトルが空でないこと
+    body("rating").notEmpty().isInt({ min: 1, max: 5 }), // 評価が空でないこと、1〜5の整数であること
+    body("description").notEmpty(), // 説明が空でないこと
+    body("comment").notEmpty(), // コメントが空でないこと
+    registBook
+);
 
 // PATCH /api/books/:id
-router.patch("/:id", async (req, res) => {
-    const { title, rating, description, comment } = req.body;
-    const _id = req.params.id;
-    const book = await Book.findOne({ _id: _id });
-
-    book.title = title || book.title;
-    book.rating = rating || book.rating;
-    book.description = description || book.description;
-    book.comment = comment || book.comment;
-
-    await book.save();
-
-    res.json({ message: "Updated" });
-});
+router.patch(
+    "/:id",
+    body("title").optional().notEmpty(), // タイトルが空でないこと
+    body("rating").optional().notEmpty().isInt({ min: 1, max: 5 }), // 評価が空でないこと、1〜5の整数であること
+    body("description").optional().notEmpty(), // 説明が空でないこと
+    body("comment").optional().notEmpty(), // コメントが空でないこと
+    updateBook
+);
 
 // DELETE /api/books/:id
 router.delete("/:id", async (req, res) => {

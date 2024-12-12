@@ -10,10 +10,10 @@ POST http://localhost:8080/api/books
 Content-Type: application/json
 
 {
-    "title": "The Lord of the Rings",
-    "description": "The Lord",
-    "comment": "素晴らしい",
-    "rating": 5
+    "title": "我輩は猫である",
+    "description": "夏目漱石",
+    "comment": "面白い",
+    "rating": 4
 }
 
 ###
@@ -22,7 +22,7 @@ PATCH  http://localhost:8080/api/books/675a1e236e90f0d933685f6f
 Content-Type: application/json
 
 {
-    "rating": 2
+    "rating": 3
 }
 
 
