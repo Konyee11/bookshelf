@@ -1,22 +1,20 @@
 import express from "express";
 import { body } from "express-validator";
-import Book from "../models/books.mjs";
-import { registBook, updateBook } from "../controllers/books.mjs";
+import {
+    getAllBooks,
+    getBookById,
+    registBook,
+    updateBook,
+    deleteBook,
+} from "../controllers/books.mjs";
 
 const router = express.Router();
 
 // GET /api/books
-router.get("/", async (req, res) => {
-    const books = await Book.find().sort({ updatedAt: -1 });
-    res.json(books);
-});
+router.get("/", getAllBooks);
 
 // GET /api/books/:id
-router.get("/:id", async (req, res) => {
-    const _id = req.params.id;
-    const book = await Book.findOne({ _id: _id });
-    res.json(book);
-});
+router.get("/:id", getBookById);
 
 // POST /api/books
 router.post(
@@ -39,10 +37,6 @@ router.patch(
 );
 
 // DELETE /api/books/:id
-router.delete("/:id", async (req, res) => {
-    const _id = req.params.id;
-    await Book.deleteOne({ _id: _id });
-    res.json({ message: "Deleted" });
-});
+router.delete("/:id", deleteBook);
 
 export default router;

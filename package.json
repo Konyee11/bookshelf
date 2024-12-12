@@ -4,7 +4,7 @@
     "description": "MERN スタック（MongoDB, Express, React, Node.js）を活用して開発した本棚アプリです。このアプリを使用することで、自分の本のコレクションを管理したり、新しい本を追加したり、詳細を確認することができます。",
     "main": "index.js",
     "scripts": {
-        "dev:api": "npx nodemon app.mjs"
+        "dev:api": "npx nodemon server/app.mjs"
     },
     "keywords": [],
     "author": "",
