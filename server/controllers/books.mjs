@@ -63,7 +63,13 @@ async function updateBook(req, res) {
 // 本を削除
 async function deleteBook(req, res) {
     const _id = req.params.id;
-    await Book.deleteOne({ _id: _id });
+    const { deletedCount } = await Book.deleteOne({ _id: _id });
+
+    if (deletedCount === 0) {
+        // 該当する本がない場合は 404 エラーを返す
+        return res.status(404).json({ message: "Not Found" });
+    }
+
     res.json({ message: "Deleted" });
 }
 
