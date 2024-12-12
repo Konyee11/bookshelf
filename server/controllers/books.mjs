@@ -45,6 +45,11 @@ async function updateBook(req, res) {
     const _id = req.params.id;
     const book = await Book.findOne({ _id: _id });
 
+    if (book === null) {
+        // 該当する本がない場合は 404 エラーを返す
+        return res.status(404).json({ message: "Not Found" });
+    }
+
     book.title = title || book.title;
     book.rating = rating || book.rating;
     book.description = description || book.description;
