@@ -10,11 +10,21 @@ import {
 
 const router = express.Router();
 
+function requestErrorHandler(controller) {
+    return async function (req, res, next) {
+        try {
+            return await controller(req, res);
+        } catch (error) {
+            next(error);
+        }
+    };
+}
+
 // GET /api/books
-router.get("/", getAllBooks);
+router.get("/", requestErrorHandler(getAllBooks));
 
 // GET /api/books/:id
-router.get("/:id", getBookById);
+router.get("/:id", requestErrorHandler(getBookById));
 
 // POST /api/books
 router.post(
@@ -23,7 +33,7 @@ router.post(
     body("rating").notEmpty().isInt({ min: 1, max: 5 }), // 評価が空でないこと、1〜5の整数であること
     body("description").notEmpty(), // 説明が空でないこと
     body("comment").notEmpty(), // コメントが空でないこと
-    registBook
+    requestErrorHandler(registBook)
 );
 
 // PATCH /api/books/:id
@@ -33,10 +43,10 @@ router.patch(
     body("rating").optional().notEmpty().isInt({ min: 1, max: 5 }), // 評価が空でないこと、1〜5の整数であること
     body("description").optional().notEmpty(), // 説明が空でないこと
     body("comment").optional().notEmpty(), // コメントが空でないこと
-    updateBook
+    requestErrorHandler(updateBook)
 );
 
 // DELETE /api/books/:id
-router.delete("/:id", deleteBook);
+router.delete("/:id", requestErrorHandler(deleteBook));
 
 export default router;
