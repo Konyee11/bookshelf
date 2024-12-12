@@ -1,6 +1,17 @@
 import { validationResult } from "express-validator";
 import Book from "../models/books.mjs";
 
+async function getAllBooks(req, res) {
+    const books = await Book.find().sort({ updatedAt: -1 });
+    res.json(books);
+}
+
+async function getBookById(req, res) {
+    const _id = req.params.id;
+    const book = await Book.findById(_id);
+    res.json(book);
+}
+
 async function registBook(req, res) {
     const errors = validationResult(req); // バリデーションエラーを取得
 
@@ -36,4 +47,10 @@ async function updateBook(req, res) {
     res.json(book);
 }
 
-export { registBook, updateBook };
+async function deleteBook(req, res) {
+    const _id = req.params.id;
+    await Book.deleteOne({ _id: _id });
+    res.json({ message: "Deleted" });
+}
+
+export { getAllBooks, getBookById, registBook, updateBook, deleteBook };
