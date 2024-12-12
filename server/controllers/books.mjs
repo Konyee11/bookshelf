@@ -14,4 +14,26 @@ async function registBook(req, res) {
     res.status(201).json({ message: "Created" });
 }
 
-export { registBook };
+async function updateBook(req, res) {
+    const errors = validationResult(req); // バリデーションエラーを取得
+
+    // エラーがある場合はエラーメッセージを返す
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, rating, description, comment } = req.body;
+    const _id = req.params.id;
+    const book = await Book.findOne({ _id: _id });
+
+    book.title = title || book.title;
+    book.rating = rating || book.rating;
+    book.description = description || book.description;
+    book.comment = comment || book.comment;
+
+    await book.save();
+
+    res.json(book);
+}
+
+export { registBook, updateBook };
