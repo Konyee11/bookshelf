@@ -7,7 +7,16 @@ import "./helpers/db.mjs";
 const app = express();
 const port = process.env.PORT || 8080;
 
+app.use(express.static("public")); // 静的ファイルの提供
 app.use(express.json());
+
+// CORS の設定
+import cors from "cors";
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+    })
+);
 
 app.use("/api", apiRoute);
 
