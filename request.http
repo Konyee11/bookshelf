@@ -10,10 +10,10 @@ POST http://localhost:8080/api/books
 Content-Type: application/json
 
 {
-    "title": "",
-    "description": "The Lord",
-    "comment": "素晴らしい",
-    "rating": 5
+    "title": "我輩は猫である",
+    "description": "夏目漱石",
+    "comment": "面白い",
+    "rating": 4
 }
 
 ###
