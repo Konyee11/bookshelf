@@ -1,4 +1,5 @@
 import express from "express";
+import { body, validationResult } from "express-validator";
 import Book from "../models/books.mjs";
 
 const router = express.Router();
@@ -17,11 +18,22 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /api/books
-router.post("/", async (req, res) => {
-    const book = new Book(req.body);
-    await book.save();
-    res.json({ message: "Created" });
-});
+router.post(
+    "/",
+    body("title").notEmpty().withMessage("エラーメッセージ"), // タイトルが空かどうかをチェック
+    async (req, res) => {
+        const errors = validationResult(req); // バリデーションエラーを取得
+
+        // エラーがある場合はエラーメッセージを返す
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const book = new Book(req.body);
+        await book.save();
+        res.json({ message: "Created" });
+    }
+);
 
 // PATCH /api/books/:id
 router.patch("/:id", async (req, res) => {

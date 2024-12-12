@@ -10,7 +10,7 @@ POST http://localhost:8080/api/books
 Content-Type: application/json
 
 {
-    "title": "The Lord of the Rings",
+    "title": "",
     "description": "The Lord",
     "comment": "素晴らしい",
     "rating": 5
