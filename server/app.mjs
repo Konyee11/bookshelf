@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import env from "dotenv";
 env.config();
@@ -7,9 +8,23 @@ import "./helpers/db.mjs";
 const app = express();
 const port = process.env.PORT || 8080;
 
+app.use(express.static("dist")); // 静的ファイルの提供
 app.use(express.json());
 
+// CORS の設定
+import cors from "cors";
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+    })
+);
+
 app.use("/api", apiRoute);
+
+app.get("*", (req, res) => {
+    const indexHTML = path.resolve("dist", "index.html");
+    res.sendFile(indexHTML);
+});
 
 // パスが存在しない場合は 404 エラーを返す
 app.use((req, res) => {
