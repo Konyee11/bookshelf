@@ -4,6 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
+        "start": "node server/app.mjs",
         "dev": "run-p dev:*",
         "dev:api": "nodemon server/app.mjs",
         "dev:client": "vite",
